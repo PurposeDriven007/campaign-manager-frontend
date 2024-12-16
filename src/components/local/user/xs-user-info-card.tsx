@@ -1,7 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import {
+  ChevronDown,
+  ChevronUp,
+  LogOut,
+  UserRound,
+  Settings,
+} from "lucide-react";
 import { useState } from "react";
 import { useAppSelector } from "@/application/hooks/selector";
 import {
@@ -9,6 +15,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
+import List from "../list/list";
+import Surface from "../surface/surface";
 
 /**
  * User Card
@@ -48,14 +56,34 @@ export function XSUserInfoCard() {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent side="top">
-                  <Card>
-                    <CardContent>
-                      <ul>
-                        <li>Setting</li>
-                        <li>Logout</li>
-                      </ul>
-                    </CardContent>
-                  </Card>
+                  <Surface>
+                    <List>
+                      <List.Item>
+                        <List.Icon>
+                          <Button variant="ghost" size="sm">
+                            <UserRound />
+                          </Button>
+                        </List.Icon>
+                        <List.Text>Profile</List.Text>
+                      </List.Item>
+                      <List.Item>
+                        <List.Icon>
+                          <Button variant="ghost" size="icon">
+                            <Settings />
+                          </Button>
+                        </List.Icon>
+                        <List.Text>Settings</List.Text>
+                      </List.Item>
+                      <List.Item>
+                        <List.Icon>
+                          <Button variant="ghost" size="icon">
+                            <LogOut />
+                          </Button>
+                        </List.Icon>
+                        <List.Text>Logout</List.Text>
+                      </List.Item>
+                    </List>
+                  </Surface>
                 </PopoverContent>
               </Popover>
             </div>

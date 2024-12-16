@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import Home from "@/pages/home/home";
 import Login from "@/pages/login/login";
 import LoginErrorBoundary from "./login/error";
@@ -7,6 +7,7 @@ import Campaigns from "./campaigns/campaigns";
 import Users from "./users/users";
 import ForgotPasswordPage from "./login/forgot-password";
 import ResetPasswordPage from "./login/reset-password";
+import { CreateUsers } from "./users/create";
 
 const routes = createBrowserRouter([
   {
@@ -31,7 +32,21 @@ const routes = createBrowserRouter([
       },
       {
         path: "users",
-        element: <Users />,
+        element: (
+          <>
+            <Outlet />
+          </>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Users />,
+          },
+          {
+            path: "create",
+            element: <CreateUsers />,
+          },
+        ],
       },
     ],
   },

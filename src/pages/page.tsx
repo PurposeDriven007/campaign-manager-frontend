@@ -42,4 +42,5 @@ const Footer = React.forwardRef<
   <div ref={ref} className={cn("", className)} {...props} />
 ));
 
+
 export default Object.assign(Page, { Header, Footer, Main });
