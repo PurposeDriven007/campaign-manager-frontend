@@ -10,12 +10,12 @@ export function CreateUsers() {
       <Page.Main>
         <div className="my-4">
           <h1 className="text-2xl font-bold">Add New User</h1>
-          <p>
+          <p className="text-sm text-muted-foreground">
             Please fill out the form below to create a new user. Ensure all
             required fields are completed accurately.
           </p>
         </div>
-        <div className="m-4">
+        <div className="">
           <CreateUserForm />
         </div>
       </Page.Main>

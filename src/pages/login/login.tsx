@@ -22,12 +22,17 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // set cookie to enable login
     Cookies.set("access_token", "tsfdgdsxcvsfdtsscgg", {
       path: "/",
       expires: 7,
     });
     navigate("/");
+
+    // Along with login we need to set the user Context
+    // Super admin
+    // Admin (Agency Admin, Advertiser Admin)
+    // Adops (Campaign Manager)
+    // Analyst (Data Analyst)
   };
 
   return (

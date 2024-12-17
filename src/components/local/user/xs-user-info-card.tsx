@@ -30,6 +30,7 @@ import Surface from "../surface/surface";
 export function XSUserInfoCard() {
   const [toggle, setToggle] = useState(false);
   const isExpanded = useAppSelector((state) => state.sidebar.isExpanded);
+  const user = useAppSelector((state) => state.user);
 
   return (
     <Card className="mx-1 p-4">
@@ -41,8 +42,8 @@ export function XSUserInfoCard() {
         {isExpanded && (
           <>
             <div className="grow flex flex-col">
-              <p className="text-sm font-semibold">John Doe</p>
-              <p className="text-sm font-semibold">john.doe@example.com</p>
+              <p className="text-sm font-semibold">{`${user.name} (${user.role})`}</p>
+              <p className="text-sm font-semibold">{user.email}</p>
             </div>
             <div>
               <Popover>

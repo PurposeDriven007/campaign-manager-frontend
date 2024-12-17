@@ -32,11 +32,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "users",
-        element: (
-          <>
-            <Outlet />
-          </>
-        ),
+        element: <Outlet />,
         children: [
           {
             index: true,

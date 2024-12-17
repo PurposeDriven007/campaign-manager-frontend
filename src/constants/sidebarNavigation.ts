@@ -1,4 +1,11 @@
-import { Settings, Users, ChartSpline, Filter, House } from "lucide-react";
+import {
+  Settings,
+  Users,
+  ChartSpline,
+  Filter,
+  House,
+  SwatchBook,
+} from "lucide-react";
 
 const sidebarNavigation = [
   {
@@ -14,6 +21,11 @@ const sidebarNavigation = [
     items: [],
   },
   { icon: Settings, item: "Settings", path: "/settings" },
+  {
+    icon: SwatchBook,
+    item: "Accounts",
+    path: "/accounts",
+  },
   {
     icon: Users,
     item: "Users",
