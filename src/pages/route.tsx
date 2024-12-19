@@ -9,6 +9,7 @@ import ForgotPasswordPage from "./login/forgot-password";
 import ResetPasswordPage from "./login/reset-password";
 import { CreateUsers } from "./users/create";
 import { CreateUserPermission } from "./users/create-user-permission";
+import { UserEdit } from "./users/edit";
 
 const routes = createBrowserRouter(
   [
@@ -49,6 +50,10 @@ const routes = createBrowserRouter(
                   element: <CreateUsers />,
                 },
               ],
+            },
+            {
+              path: ":username",
+              element: <UserEdit />,
             },
           ],
         },

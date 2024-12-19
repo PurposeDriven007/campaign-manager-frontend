@@ -22,6 +22,14 @@ const Header = React.forwardRef<
 ));
 Header.displayName = "Header";
 
+const SubHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("m-4", className)} {...props} />
+));
+SubHeader.displayName = "SubHeader";
+
 const Main = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -42,4 +50,4 @@ const Footer = React.forwardRef<
   <div ref={ref} className={cn("border-t", className)} {...props} />
 ));
 
-export default Object.assign(Page, { Header, Footer, Main });
+export default Object.assign(Page, { Header, SubHeader, Footer, Main });

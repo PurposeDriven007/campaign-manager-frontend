@@ -3,6 +3,110 @@ import Page from "../page";
 import { Button } from "@/components/ui/button";
 import { ListFilter, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { EllipsisVertical } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/local/table/table";
+import { Badge } from "@/components/local/badge/badge";
+import Toolbar from "@/components/local/toolbar/toolbar";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationEllipsis,
+  PaginationNext,
+} from "@/components/local/pagination/pagination";
+
+const dummydata = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    role: "Campaign Manager",
+    lastActive: "Offline",
+    dateAdded: "2021-08-15",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    role: "Admin",
+    lastActive: "Online",
+    dateAdded: "2021-07-22",
+  },
+  {
+    id: 3,
+    name: "Alice Johnson",
+    email: "alice.johnson@example.com",
+    role: "Reporting",
+    lastActive: "Offline",
+    dateAdded: "2021-09-01",
+  },
+  {
+    id: 4,
+    name: "Bob Brown",
+    email: "bob.brown@example.com",
+    role: "Campaign Manager",
+    lastActive: "Online",
+    dateAdded: "2021-06-30",
+  },
+  {
+    id: 5,
+    name: "Charlie Davis",
+    email: "charlie.davis@example.com",
+    role: "Reporting",
+    lastActive: "Offline",
+    dateAdded: "2021-05-20",
+  },
+  {
+    id: 6,
+    name: "David Wilson",
+    email: "david.wilson@example.com",
+    role: "Admin",
+    lastActive: "Online",
+    dateAdded: "2021-04-10",
+  },
+  {
+    id: 7,
+    name: "Emma Thomas",
+    email: "emma.thomas@example.com",
+    role: "Campaign Manager",
+    lastActive: "Offline",
+    dateAdded: "2021-03-25",
+  },
+  {
+    id: 8,
+    name: "Frank Harris",
+    email: "frank.harris@example.com",
+    role: "Reporting",
+    lastActive: "Online",
+    dateAdded: "2021-02-18",
+  },
+  {
+    id: 9,
+    name: "Grace Lee",
+    email: "grace.lee@example.com",
+    role: "Admin",
+    lastActive: "Offline",
+    dateAdded: "2021-01-30",
+  },
+  {
+    id: 10,
+    name: "Henry Walker",
+    email: "henry.walker@example.com",
+    role: "Campaign Manager",
+    lastActive: "Online",
+    dateAdded: "2020-12-15",
+  },
+];
 
 function Users() {
   const navigate = useNavigate();
@@ -16,7 +120,7 @@ function Users() {
       <Page.Header>
         <Header />
       </Page.Header>
-      <Page.Main>
+      <Page.SubHeader>
         <div className="user-management">
           <h1 className="text-2xl font-bold">User Management</h1>
           <p>
@@ -61,8 +165,78 @@ function Users() {
             <span>Add User</span>
           </Button>
         </div>
+      </Page.SubHeader>
+      <Page.Main>
+        <div>
+          <Table>
+            <TableHeader className="">
+              <TableRow className="">
+                <TableHead>Users</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>Last Active</TableHead>
+                <TableHead className="text-right">Date Added</TableHead>
+                <TableHead className="text-right"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {dummydata.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell className="font-medium">
+                    <div className="grid grid-cols-1">
+                      <span className="text-sm font-semibold">{user.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {user.email}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline">{user.role}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className={`badge ${
+                        user.lastActive === "Online"
+                          ? "badge-success"
+                          : "badge-muted"
+                      }`}
+                    >
+                      {user.lastActive}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <span>{user.dateAdded}</span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </Page.Main>
-      <Page.Footer></Page.Footer>
+      <Page.Footer>
+        <Toolbar>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </Toolbar>
+      </Page.Footer>
     </Page>
   );
 }
