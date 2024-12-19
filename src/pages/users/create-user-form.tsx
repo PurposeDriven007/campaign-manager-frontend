@@ -23,17 +23,16 @@ import { generatePassword } from "../../utils/generatePassword";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import Surface from "@/components/local/surface/surface";
+import { useEffect, useMemo } from "react";
+import { useAppDispatch, useAppSelector } from "@/application/hooks/selector";
+import { useQuery } from "@tanstack/react-query";
+import { getRoles } from "@/apis";
 
 const createUserSchema = z.object({
   firstName: z.string().min(2, {
     message: "First name must be at least 2 characters long",
   }),
-  middleName: z
-    .string()
-    .min(2, {
-      message: "Middle name must be at least 2 characters long",
-    })
-    .optional(),
+  middleName: z.string().optional(),
   lastName: z.string().min(2, {
     message: "Last name must be at least 2 characters long",
   }),
@@ -67,6 +66,16 @@ const createUserSchema = z.object({
 });
 
 export function CreateUserForm() {
+  const shouldSubmit = useAppSelector(
+    (state) => state.userRegistration.shouldSubmit
+  );
+  const dispatch = useAppDispatch();
+
+  const { data: roles } = useQuery({
+    queryKey: ["getRoles"],
+    queryFn: getRoles,
+  });
+
   const form = useForm<z.infer<typeof createUserSchema>>({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
@@ -76,12 +85,6 @@ export function CreateUserForm() {
       email: "",
       password: generatePassword(),
       role: "Campaign Manager",
-      permissions: {
-        users: {
-          canRead: true,
-          canUpdate: false,
-        },
-      },
     },
   });
 
@@ -90,6 +93,65 @@ export function CreateUserForm() {
 
     form.setValue("password", generatePassword());
   };
+
+  useEffect(() => {
+    if (form.getValues().role.includes("Admin")) {
+      form.setValue("permissions", {
+        users: {
+          canRead: true,
+          canUpdate: true,
+        },
+        accounts: {
+          canRead: true,
+          canUpdate: true,
+        },
+        campaigns: {
+          canRead: true,
+          canUpdate: true,
+        },
+      });
+    }
+    if (form.getValues().role.includes("Campaign Manager")) {
+      form.setValue("permissions", {
+        users: {
+          canRead: true,
+          canUpdate: false,
+        },
+        accounts: {
+          canRead: true,
+          canUpdate: false,
+        },
+        campaigns: {
+          canRead: true,
+          canUpdate: true,
+        },
+      });
+    }
+    if (form.getValues().role.includes("Reporting")) {
+      form.setValue("permissions", {
+        users: {
+          canRead: true,
+          canUpdate: false,
+        },
+        accounts: {
+          canRead: true,
+          canUpdate: false,
+        },
+        campaigns: {
+          canRead: true,
+          canUpdate: false,
+        },
+      });
+    }
+  }, [form.watch()]);
+
+  useEffect(() => {
+    if (shouldSubmit) {
+      form.handleSubmit((data) => {
+        console.log(data);
+      })();
+    }
+  }, [shouldSubmit]);
 
   return (
     <>
@@ -212,17 +274,17 @@ export function CreateUserForm() {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue>{field.value}</SelectValue>
+                          <SelectValue>
+                            {field.value || "Select user role"}
+                          </SelectValue>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="bg-background">
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="data_analyst">
-                          Data Analyst
-                        </SelectItem>
-                        <SelectItem value="add_ops">
-                          Advertsing Operations
-                        </SelectItem>
+                        {roles?.map((role) => (
+                          <SelectItem key={role.id} value={role.name}>
+                            {role.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormDescription>

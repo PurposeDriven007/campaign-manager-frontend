@@ -21,7 +21,7 @@ export function Breadcrumbs() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink>
+          <BreadcrumbLink asChild>
             <Link to="/">Dashboard</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -35,7 +35,7 @@ export function Breadcrumbs() {
                 {isLast ? (
                   <BreadcrumbPage>{capitalize(value)}</BreadcrumbPage>
                 ) : (
-                  <BreadcrumbLink>
+                  <BreadcrumbLink asChild>
                     <Link to={to}>{capitalize(value)}</Link>
                   </BreadcrumbLink>
                 )}

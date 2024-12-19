@@ -17,6 +17,9 @@ import {
 } from "@radix-ui/react-popover";
 import List from "../list/list";
 import Surface from "../surface/surface";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 /**
  * User Card
@@ -31,6 +34,14 @@ export function XSUserInfoCard() {
   const [toggle, setToggle] = useState(false);
   const isExpanded = useAppSelector((state) => state.sidebar.isExpanded);
   const user = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const handleLogout = (e: any) => {
+    e.preventDefault();
+    Cookies.remove("access_token");
+    navigate("/login");
+    toast.success("Logged out successfully");
+  };
 
   return (
     <Card className="mx-1 p-4">
@@ -75,7 +86,7 @@ export function XSUserInfoCard() {
                         </List.Icon>
                         <List.Text>Settings</List.Text>
                       </List.Item>
-                      <List.Item>
+                      <List.Item onClick={handleLogout}>
                         <List.Icon>
                           <Button variant="ghost" size="icon">
                             <LogOut />

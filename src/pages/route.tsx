@@ -8,59 +8,73 @@ import Users from "./users/users";
 import ForgotPasswordPage from "./login/forgot-password";
 import ResetPasswordPage from "./login/reset-password";
 import { CreateUsers } from "./users/create";
+import { CreateUserPermission } from "./users/create-user-permission";
 
-const routes = createBrowserRouter([
+const routes = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <AuthenticatedLayout />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: "campaigns",
+          element: <Campaigns />,
+        },
+        {
+          path: "analytics",
+          element: <div>Analytics</div>,
+        },
+        {
+          path: "settings",
+          element: <div>Settings</div>,
+        },
+        {
+          path: "users",
+          element: <Outlet />,
+          children: [
+            {
+              index: true,
+              element: <Users />,
+            },
+            {
+              path: "create",
+              element: <CreateUserPermission />,
+              children: [
+                {
+                  index: true,
+                  element: <CreateUsers />,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+      errorElement: <LoginErrorBoundary />,
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPasswordPage />,
+      errorElement: <LoginErrorBoundary />,
+    },
+    {
+      path: "/forgot-password",
+      element: <ForgotPasswordPage />,
+      errorElement: <LoginErrorBoundary />,
+    },
+  ],
   {
-    path: "/",
-    element: <AuthenticatedLayout />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "campaigns",
-        element: <Campaigns />,
-      },
-      {
-        path: "analytics",
-        element: <div>Analytics</div>,
-      },
-      {
-        path: "settings",
-        element: <div>Settings</div>,
-      },
-      {
-        path: "users",
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <Users />,
-          },
-          {
-            path: "create",
-            element: <CreateUsers />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
-    errorElement: <LoginErrorBoundary />,
-  },
-  {
-    path: "/reset-password",
-    element: <ResetPasswordPage />,
-    errorElement: <LoginErrorBoundary />,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPasswordPage />,
-    errorElement: <LoginErrorBoundary />,
-  },
-]);
+    future: {
+      v7_skipActionErrorRevalidation: true,
+    },
+  }
+);
 
 export default routes;

@@ -1,8 +1,5 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Cookies from "js-cookie";
 import {
   Card,
   CardContent,
@@ -11,9 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { login } from "@/apis";
 
 interface LoginFormState {
   email: string;
@@ -22,6 +21,7 @@ interface LoginFormState {
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isRememberMe, setIsRememberMe] = useState(
     () => localStorage.getItem("rememberMe") === "true"
@@ -52,15 +52,17 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // TODO: Implement actual login logic here
-      Cookies.set("authToken", "dummy-token", {
-        path: "/",
-        expires: 7,
+      const { data } = await login({
+        email: formState.email,
+        password: formState.password,
       });
+      const key = "user";
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem(key, jsonData);
+      toast.success("Logged in successfully");
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
-      // TODO: Add error handling UI
     } finally {
       setIsLoading(false);
     }

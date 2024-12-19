@@ -1,19 +1,57 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IUserRegistrationState {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+  form: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: string;
+    permissions: {
+      users?: {
+        canRead: boolean;
+        canUpdate: boolean;
+      };
+      accounts?: {
+        canRead: boolean;
+        canUpdate: boolean;
+      };
+      campaigns?: {
+        canRead: boolean;
+        canUpdate: boolean;
+      };
+    };
+  };
   isCompleted: boolean;
+  isValid: boolean;
+  shouldSubmit: boolean;
 }
 
 const initialState: IUserRegistrationState = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
+  form: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    role: "",
+    permissions: {
+      users: {
+        canRead: false,
+        canUpdate: false,
+      },
+      accounts: {
+        canRead: false,
+        canUpdate: false,
+      },
+      campaigns: {
+        canRead: false,
+        canUpdate: false,
+      },
+    },
+  },
   isCompleted: false,
+  isValid: false,
+  shouldSubmit: false,
 };
 
 const userRegistrationSlice = createSlice({
@@ -21,18 +59,25 @@ const userRegistrationSlice = createSlice({
   initialState,
   reducers: {
     setForm: (state, action: PayloadAction<IUserRegistrationState>) => {
-      state.firstName = action.payload.firstName;
-      state.lastName = action.payload.lastName;
-      state.email = action.payload.email;
-      state.password = action.payload.password;
-      state.isCompleted = action.payload.isCompleted;
+      state.form = action.payload.form;
+      return state;
     },
-    resetForm: () => {
-      return initialState;
+    setCompleted: (state, action: PayloadAction<boolean>) => {
+      state.isCompleted = action.payload;
+      return state;
+    },
+    setValid: (state, action: PayloadAction<boolean>) => {
+      state.isValid = action.payload;
+      return state;
+    },
+    setShouldSubmit: (state, action: PayloadAction<boolean>) => {
+      state.shouldSubmit = action.payload;
+      return state;
     },
   },
 });
 
-export const { setForm, resetForm } = userRegistrationSlice.actions;
+export const { setForm, setCompleted, setValid, setShouldSubmit } =
+  userRegistrationSlice.actions;
 
 export default userRegistrationSlice.reducer;
