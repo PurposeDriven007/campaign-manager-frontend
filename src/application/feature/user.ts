@@ -25,7 +25,7 @@ interface IUserState {
 const userSlice = createSlice({
   name: "user",
   initialState: () => {
-    const raw = localStorage.getItem("user") || "";
+    const raw = localStorage.getItem("user") || "{}";
     const data = JSON.parse(raw);
     return {
       ...data,
