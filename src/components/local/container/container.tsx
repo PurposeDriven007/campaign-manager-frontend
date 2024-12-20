@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const containerVariants = cva("mx-auto px-4", {
+  // const boxVariants = cva("default",{variants:{mw:{}}},{defaultVariants});
   variants: {
     maxWidth: {
       default: "max-w-screen-xl",
