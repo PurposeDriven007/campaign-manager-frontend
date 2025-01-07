@@ -23,5 +23,7 @@ export async function login(payload: any): Promise<{
     };
   };
 }> {
-  return api.post("/login", payload);
+  return api.post("/login", payload, {
+    withCredentials: true,
+  });
 }
