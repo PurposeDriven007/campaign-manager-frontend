@@ -36,7 +36,7 @@ const Main = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("grow overflow-auto m-4", className)}
+    className={cn("grow overflow-auto m-4 scroll-smooth", className)}
     {...props}
   />
 ));

@@ -15,15 +15,7 @@ import {
 } from "@/components/local/table/table";
 import { Badge } from "@/components/local/badge/badge";
 import Toolbar from "@/components/local/toolbar/toolbar";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
-} from "@/components/local/pagination/pagination";
+import { Paginate } from "@/components/local/pagination/paginate";
 
 const dummydata = [
   {
@@ -105,6 +97,30 @@ const dummydata = [
     role: "Campaign Manager",
     lastActive: "Online",
     dateAdded: "2020-12-15",
+  },
+  {
+    id: 11,
+    name: "Ivy Martinez",
+    email: "ivy.martinez@example.com",
+    role: "Admin",
+    lastActive: "Online",
+    dateAdded: "2020-11-05",
+  },
+  {
+    id: 12,
+    name: "Jack White",
+    email: "jack.white@example.com",
+    role: "Campaign Manager",
+    lastActive: "Offline",
+    dateAdded: "2020-10-20",
+  },
+  {
+    id: 13,
+    name: "Karen Black",
+    email: "karen.black@example.com",
+    role: "Reporting",
+    lastActive: "Online",
+    dateAdded: "2020-09-15",
   },
 ];
 
@@ -219,22 +235,7 @@ function Users() {
       </Page.Main>
       <Page.Footer>
         <Toolbar>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <Paginate length={dummydata.length} />
         </Toolbar>
       </Page.Footer>
     </Page>

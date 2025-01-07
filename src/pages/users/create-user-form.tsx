@@ -23,7 +23,7 @@ import { generatePassword } from "../../utils/generatePassword";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import Surface from "@/components/local/surface/surface";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/application/hooks/selector";
 import { useQuery } from "@tanstack/react-query";
 import { getRoles } from "@/apis";
@@ -48,17 +48,32 @@ const createUserSchema = z.object({
       .object({
         canRead: z.boolean(),
         canUpdate: z.boolean(),
+        canCreate: z.boolean(),
+        canDelete: z.boolean(),
       })
       .optional(),
     accounts: z
       .object({
         canRead: z.boolean(),
         canUpdate: z.boolean(),
+        canCreate: z.boolean(),
+        canDelete: z.boolean(),
       })
       .optional(),
     campaigns: z
       .object({
         canRead: z.boolean(),
+        canUpdate: z.boolean(),
+        canCreate: z.boolean(),
+        canDelete: z.boolean(),
+      })
+      .optional(),
+    reports: z
+      .object({
+        canCreate: z.boolean(),
+        canRead: z.boolean(),
+        canExport: z.boolean(),
+        canDelete: z.boolean(),
         canUpdate: z.boolean(),
       })
       .optional(),
@@ -100,13 +115,26 @@ export function CreateUserForm() {
         users: {
           canRead: true,
           canUpdate: true,
+          canCreate: true,
+          canDelete: true,
         },
         accounts: {
           canRead: true,
           canUpdate: true,
+          canCreate: true,
+          canDelete: true,
         },
         campaigns: {
           canRead: true,
+          canUpdate: true,
+          canCreate: true,
+          canDelete: true,
+        },
+        reports: {
+          canRead: true,
+          canExport: true,
+          canCreate: true,
+          canDelete: true,
           canUpdate: true,
         },
       });
@@ -116,14 +144,27 @@ export function CreateUserForm() {
         users: {
           canRead: true,
           canUpdate: false,
+          canCreate: false,
+          canDelete: false,
         },
         accounts: {
           canRead: true,
           canUpdate: false,
+          canCreate: false,
+          canDelete: false,
         },
         campaigns: {
           canRead: true,
           canUpdate: true,
+          canCreate: true,
+          canDelete: true,
+        },
+        reports: {
+          canRead: true,
+          canExport: false,
+          canCreate: false,
+          canDelete: false,
+          canUpdate: false,
         },
       });
     }
@@ -132,14 +173,27 @@ export function CreateUserForm() {
         users: {
           canRead: true,
           canUpdate: false,
+          canCreate: false,
+          canDelete: false,
         },
         accounts: {
           canRead: true,
           canUpdate: false,
+          canCreate: false,
+          canDelete: false,
         },
         campaigns: {
           canRead: true,
           canUpdate: false,
+          canCreate: false,
+          canDelete: false,
+        },
+        reports: {
+          canRead: true,
+          canUpdate: true,
+          canExport: true,
+          canCreate: true,
+          canDelete: true,
         },
       });
     }
@@ -304,8 +358,32 @@ export function CreateUserForm() {
                   <TabsTrigger value="users">Users</TabsTrigger>
                   <TabsTrigger value="accounts">Accounts</TabsTrigger>
                   <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+                  <TabsTrigger value="reports">Reports</TabsTrigger>
                 </TabsList>
                 <TabsContent value="users">
+                  <FormField
+                    control={form.control}
+                    name="permissions.users.canCreate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between p-3">
+                        <div className="space-y-0.5">
+                          <FormLabel>
+                            Can Create <span className="text-sm">(Create)</span>
+                          </FormLabel>
+                          <FormDescription>
+                            Allow user to add users
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            aria-readonly
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="permissions.users.canRead"
@@ -352,8 +430,54 @@ export function CreateUserForm() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="permissions.users.canDelete"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between p-3">
+                        <div className="space-y-0.5">
+                          <FormLabel>
+                            Can Delete <span className="text-sm">(Delete)</span>
+                          </FormLabel>
+                          <FormDescription>
+                            Allow user to delete users
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            aria-readonly
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </TabsContent>
                 <TabsContent value="accounts">
+                  <FormField
+                    control={form.control}
+                    name="permissions.accounts.canCreate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between p-3">
+                        <div className="space-y-0.5">
+                          <FormLabel>
+                            Can Create <span className="text-sm">(Create)</span>
+                          </FormLabel>
+                          <FormDescription>
+                            Allow user to Create accounts
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            aria-readonly
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="permissions.accounts.canRead"
@@ -400,9 +524,56 @@ export function CreateUserForm() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="permissions.accounts.canDelete"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between p-3">
+                        <div className="space-y-0.5">
+                          <FormLabel>
+                            Can Delete <span className="text-sm">(Delete)</span>
+                          </FormLabel>
+                          <FormDescription>
+                            Allow user to delete accounts
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            aria-readonly
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </TabsContent>
                 <TabsContent value="campaigns">
                   <>
+                    <FormField
+                      control={form.control}
+                      name="permissions.campaigns.canCreate"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between p-3">
+                          <div className="space-y-0.5">
+                            <FormLabel>
+                              Can Create{" "}
+                              <span className="text-sm">(Create)</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Allow user to create campaigns
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              aria-readonly
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name="permissions.campaigns.canRead"
@@ -438,6 +609,129 @@ export function CreateUserForm() {
                             </FormLabel>
                             <FormDescription>
                               Allow user to update campaigns
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              aria-readonly
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="permissions.campaigns.canDelete"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between p-3">
+                          <div className="space-y-0.5">
+                            <FormLabel>
+                              Can Delete{" "}
+                              <span className="text-sm">(Delete)</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Allow user to delete campaigns
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              aria-readonly
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                </TabsContent>
+                <TabsContent value="reports">
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="permissions.reports.canCreate"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between p-3">
+                          <div className="space-y-0.5">
+                            <FormLabel>
+                              Can Create{" "}
+                              <span className="text-sm">(Create)</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Allow user to create reports
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              aria-readonly
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="permissions.reports.canRead"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between p-3">
+                          <div className="space-y-0.5">
+                            <FormLabel>
+                              Can Read <span className="text-sm">(View)</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Allow user to view reports
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              aria-readonly
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="permissions.reports.canUpdate"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between p-3">
+                          <div className="space-y-0.5">
+                            <FormLabel>
+                              Can Update{" "}
+                              <span className="text-sm">(Update)</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Allow user to update reports
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              aria-readonly
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="permissions.reports.canExport"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between p-3">
+                          <div className="space-y-0.5">
+                            <FormLabel>
+                              Can Export{" "}
+                              <span className="text-sm">(Export)</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Allow user to export Reports
                             </FormDescription>
                           </div>
                           <FormControl>
