@@ -197,7 +197,7 @@ export function CreateUserForm() {
         },
       });
     }
-  }, [form.watch()]);
+  }, [form.watch("role")]);
 
   useEffect(() => {
     if (shouldSubmit) {

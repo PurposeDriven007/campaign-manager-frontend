@@ -12,7 +12,8 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
+import { Input } from "@/components/local/input/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -46,7 +47,16 @@ export function UserEdit() {
       <Page.Header>
         <Header />
       </Page.Header>
-      <Page.Main>
+      <Page.SubHeader>
+        <div className="user-management">
+          <h1 className="text-2xl font-bold ">My Profile</h1>
+          <p className="text-sm text-muted-foreground">
+            Manage your profile here. You can upadte your personal information
+            and password, and view your activity.
+          </p>
+        </div>
+      </Page.SubHeader>
+      <Page.Main className="grid grid-cols-1 gap-4">
         <Surface className="w-full p-4">
           <div className="flex justify-between items-center">
             <div className="grid grid-cols-1  mb-4">
@@ -71,24 +81,149 @@ export function UserEdit() {
           </div>
           <div>
             <Form {...form}>
-              <FormField
-                control={form.control}
-                name="firstName"
-                disabled={!edit}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="First name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={!edit}
+                          variant="ghost"
+                          {...field}
+                          value="Biswarup"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="middleName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Middle Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={!edit}
+                          variant="ghost"
+                          {...field}
+                          value=""
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={!edit}
+                          variant="ghost"
+                          {...field}
+                          value="Bouri"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </Form>
+          </div>
+        </Surface>
+        <Surface className="w-full p-4">
+          <div className="flex justify-between items-center">
+            <div className="grid grid-cols-1  mb-4">
+              <span className="text-base font-semibold">
+                Personal Information
+              </span>
+              <span className="text-sm text-muted-foreground">
+                User Personal Information
+              </span>
+            </div>
+            <div>
+              <Button
+                className="rounded-full"
+                variant={edit ? "default" : "outline"}
+                size="sm"
+                onClick={() => setEdit(!edit)}
+              >
+                <span>Edit</span>
+                <PencilLine size={16} />
+              </Button>
+            </div>
+          </div>
+          <div>
+            <Form {...form}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={!edit}
+                          variant="ghost"
+                          {...field}
+                          value="Biswarup"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="middleName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Middle Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={!edit}
+                          variant="ghost"
+                          {...field}
+                          value=""
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={!edit}
+                          variant="ghost"
+                          {...field}
+                          value="Bouri"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </Form>
           </div>
         </Surface>
       </Page.Main>
-      <Page.Footer></Page.Footer>
     </Page>
   );
 }

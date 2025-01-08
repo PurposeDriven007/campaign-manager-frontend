@@ -6,6 +6,7 @@ interface IUserState {
   role: string;
   name: string;
   email: string;
+  userId: string;
   permissions?: {
     users: {
       canRead: boolean;
@@ -15,7 +16,7 @@ interface IUserState {
       canRead: boolean;
       canUpdate: boolean;
     };
-    advertisers?: {
+    advertisers: {
       canRead: boolean;
       canUpdate: boolean;
     };
@@ -39,8 +40,16 @@ const userSlice = createSlice({
       state = action.payload;
       return state;
     },
+    setPermissions: (
+      state,
+      action: PayloadAction<IUserState["permissions"]>
+    ) => {
+      state.permissions = action.payload;
+      return state;
+    },
   },
 });
 
-export const { setUserAuthentication, setUser } = userSlice.actions;
+export const { setUserAuthentication, setUser, setPermissions } =
+  userSlice.actions;
 export default userSlice.reducer;

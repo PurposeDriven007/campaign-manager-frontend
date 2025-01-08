@@ -6,6 +6,7 @@ const mockData = {
     accountType: "advertiser",
     role: "admin",
     name: "Biswarup Bouri",
+    userId: "1",
     email: "biswarup.bouri@verse.in",
     permissions: {
       users: {

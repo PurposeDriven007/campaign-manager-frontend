@@ -1,12 +1,26 @@
-import { useAppSelector } from "@/application/hooks/selector";
 import React from "react";
 
-interface ScopeProps extends React.HTMLAttributes<HTMLDivElement> {
-  scope: "read" | "delete" | "update" | "create" | "export";
-}
+const Scope = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>;
+};
 
-function Permission(props: ScopeProps) {
-  const permission = useAppSelector((state) => state.user.permission);
-  return <div>Scope</div>;
-}
-Permission.displayName = "Scope";
+const Users = ({ children }: { children: React.ReactNode }) => {
+  return <div>{children}</div>;
+};
+
+const Permission = ({
+  flag,
+  children,
+}: {
+  flag: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div>
+      <p>Permission: {flag}</p>
+      {children}
+    </div>
+  );
+};
+
+export default Object.assign(Scope, { Users, Permission });

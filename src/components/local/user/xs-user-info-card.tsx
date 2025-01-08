@@ -70,7 +70,11 @@ export function XSUserInfoCard() {
                 <PopoverContent side="top">
                   <Surface>
                     <List>
-                      <List.Item>
+                      <List.Item
+                        onClick={() => {
+                          navigate(`/users/${user.userId}`);
+                        }}
+                      >
                         <List.Icon>
                           <Button variant="ghost" size="sm">
                             <UserRound />
