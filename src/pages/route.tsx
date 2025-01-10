@@ -9,7 +9,8 @@ import ForgotPasswordPage from "./login/forgot-password";
 import ResetPasswordPage from "./login/reset-password";
 import { CreateUsers } from "./users/create";
 import { CreateUserPermission } from "./users/create-user-permission";
-import { UserEdit } from "./users/edit";
+// import { UserEdit } from "./users/edit";
+import { MyProfile } from "./users/my-profile/profile";
 
 const routes = createBrowserRouter(
   [
@@ -53,7 +54,18 @@ const routes = createBrowserRouter(
             },
             {
               path: ":username",
-              element: <UserEdit />,
+              element: <MyProfile />,
+            },
+            {
+              path: "profile",
+              // When updating other user's profile
+              element: <Outlet />,
+              children: [
+                {
+                  index: true,
+                  element: <div>Profile</div>,
+                },
+              ],
             },
           ],
         },

@@ -82,14 +82,6 @@ export function XSUserInfoCard() {
                         </List.Icon>
                         <List.Text>Profile</List.Text>
                       </List.Item>
-                      <List.Item>
-                        <List.Icon>
-                          <Button variant="ghost" size="icon">
-                            <Settings />
-                          </Button>
-                        </List.Icon>
-                        <List.Text>Settings</List.Text>
-                      </List.Item>
                       <List.Item onClick={handleLogout}>
                         <List.Icon>
                           <Button variant="ghost" size="icon">
