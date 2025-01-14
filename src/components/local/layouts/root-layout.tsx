@@ -10,7 +10,7 @@ export function RootLayout() {
 
   return (
     <Container
-      maxWidth="2xl"
+      maxScreenWidth="xxl"
       className="px-0 grid grid-cols-12"
       id="root_layout"
     >

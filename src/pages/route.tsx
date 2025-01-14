@@ -11,6 +11,8 @@ import { CreateUsers } from "./users/create";
 import { CreateUserPermission } from "./users/create-user-permission";
 // import { UserEdit } from "./users/edit";
 import { MyProfile } from "./users/my-profile/profile";
+import AdvertiserLoginPage from "./login/advertiser-login";
+import { Signup, SignupAdvertiserPage } from "./signup";
 
 const routes = createBrowserRouter(
   [
@@ -72,9 +74,40 @@ const routes = createBrowserRouter(
       ],
     },
     {
-      path: "/login",
-      element: <Login />,
-      errorElement: <LoginErrorBoundary />,
+      path: "login",
+      element: <Outlet />,
+      children: [
+        {
+          path: "advertiser",
+          element: <AdvertiserLoginPage />,
+        },
+        {
+          path: "agency",
+          element: <AdvertiserLoginPage />,
+        },
+        {
+          path: "admin",
+          element: <AdvertiserLoginPage />,
+        },
+      ],
+    },
+    {
+      path: "signup",
+      element: <Outlet />,
+      children: [
+        {
+          index: true,
+          element: <Signup />,
+        },
+        {
+          path: "advertiser",
+          element: <SignupAdvertiserPage />,
+        },
+        {
+          path: "agency",
+          element: <div>Signup agency</div>,
+        },
+      ],
     },
     {
       path: "/reset-password",
